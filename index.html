@@ -3,37 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>¿Me amas? 💙</title>
+<title>Para Celeste 🩵</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <canvas id="hearts"></canvas>
 
-<div class="page">
-  <div class="card" id="card">
-    <div class="glow"></div>
-    <div class="content">
-      <p class="eyebrow">Para ti 💙</p>
-      <h1 class="question">¿Me amas?</h1>
-      <p class="subtitle">Toca una respuesta... o intenta escapar.</p>
+<main class="wrapper">
+  <div class="content-box" id="questionBox">
+    <span class="badge">Un pequeño detalle 🩵</span>
+    <h1 class="title">¿Me amas, Celes?</h1>
+    <p class="subtitle">Una respuesta cambiará completamente mi día...</p>
 
-      <div class="buttons" id="buttons">
-        <button class="btn btn-yes" id="yesBtn">Sí 💙</button>
-        <button class="btn btn-no" id="noBtn">No ✨</button>
-      </div>
-
-      <div class="message" id="message" style="display:none;">
-        <div class="heart-big">💙</div>
-        <h2>Lo sabía 😍</h2>
-        <p>Tu corazón también me dice que sí.</p>
-        <button class="retry" id="retryBtn">Volver a preguntar 💙</button>
-      </div>
+    <div class="btn-container">
+      <button class="btn btn-yes" id="yesBtn">Sí, muchísimo 💙</button>
+      <button class="btn btn-no" id="noBtn">No... 🙈</button>
     </div>
   </div>
-</div>
+
+  <div class="content-box result-box" id="resultBox" style="display: none;">
+    <div class="cat-wrapper">
+      <img src="https://media.tenor.com/images/b276ea4cd677ee0957d063b4b200d5d2/tenor.gif" alt="Gato con corazones" class="cat-gif" onerror="this.src='https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eWZwbmlxdnA0eXU2ZThzOHIxcXZrYXZpOHRnM3dnbG45ZzBsaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lq0h93752f6J9tijrh/giphy.gif'">
+    </div>
+    <h2 class="result-title">Te adoro, Celes 🩵</h2>
+    <p class="result-text">Sabía que nuestro destino era sonreír juntos. Gracias por hacer todo más bonito.</p>
+  </div>
+</main>
 
 <script src="script.js"></script>
 </body>
