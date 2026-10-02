@@ -81,51 +81,59 @@ document.addEventListener('pointermove', (e)=>{ if(Math.random()>0.18) return;
   document.body.appendChild(s); setTimeout(()=>s.remove(),800);
 });
 
-// Botón No que huye con fluidez incluso en el primer movimiento
+// Botón No que huye con movimiento natural siempre animado
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 const questionBox = document.getElementById('questionBox');
 const resultBox = document.getElementById('resultBox');
 
+let isMoving = false;
+let lastX = null;
+let lastY = null;
+
 function moveNo(e){
+  if (isMoving) return;
+  isMoving = true;
+
   initAudio();
   
-  // Asegurar que está fuera del overflow
+  // 1. Asegurar que está fuera del overflow
   if(noBtn.parentNode !== document.body){
     document.body.appendChild(noBtn);
   }
   
-  // Configuración base del estilo fijo
+  // 2. Estilo fijo base
   noBtn.style.position = 'fixed';
   noBtn.style.left = '0px';
   noBtn.style.top = '0px';
   noBtn.style.margin = '0';
   noBtn.style.zIndex = '9999';
 
-  // Forzar un render inicial sin animación para medir dimensiones
-  noBtn.style.transition = 'none';
-  // Posición inicial sin animación para medir tamaño
-  noBtn.style.transform = 'translate(0px, 0px)';
+  // 3. Asegurar transición para el primer movimiento
+  noBtn.style.transition = 'transform 0.48s cubic-bezier(0.34, 1.56, 0.64, 1)';
 
-  // Medición en el siguiente frame para tener dimensiones correctas
+  const viewW = window.innerWidth;
+  const viewH = window.innerHeight;
+  const btnW = noBtn.offsetWidth;
+  const btnH = noBtn.offsetHeight;
+  
+  const maxX = viewW - btnW - 20;
+  const maxY = viewH - btnH - 20;
+
+  let x, y;
+  do{
+    x = Math.max(20, Math.min(Math.random()*maxX, maxX));
+    y = Math.max(20, Math.min(Math.random()*maxY, maxY));
+  }while(lastX !== null && Math.abs(x-lastX) < 120 && Math.abs(y-lastY) < 120);
+
+  lastX = x;
+  lastY = y;
+
+  // 4. Animación fluida desde la posición actual
   requestAnimationFrame(() => {
-    // Activar transición suave
-    noBtn.style.transition = 'transform 0.48s cubic-bezier(0.34, 1.56, 0.64, 1)';
-    
-    const viewW = window.innerWidth;
-    const viewH = window.innerHeight;
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
-    
-    const maxX = viewW - btnW - 20;
-    const maxY = viewH - btnH - 20;
-
-    const x = Math.max(20, Math.min(Math.random()*maxX, maxX));
-    const y = Math.max(20, Math.min(Math.random()*maxY, maxY));
-
-    // Ahora sì, aplicamos el movimiento con animación
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
     playBiu();
+    setTimeout(()=>{ isMoving = false; }, 480);
   });
 }
 
