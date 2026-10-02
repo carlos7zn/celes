@@ -162,34 +162,34 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.letter-card').forEach(card => {
         card.addEventListener('mouseenter', () => playHover());
       });
+
+    // === CARTAS INTERACTIVAS (dentro de DOMContentLoaded) ===
+    document.querySelectorAll('.letter-card').forEach(card => {
+      card.addEventListener('click', () => {
+        playPop();
+        const letterNum = card.getAttribute('data-letter');
+        const modal = document.getElementById('modal' + letterNum);
+        if (modal) {
+          modal.classList.add('open');
+        }
+      });
     });
 
-// === CARTAS INTERACTIVAS ===
-document.querySelectorAll('.letter-card').forEach(card => {
-  card.addEventListener('click', () => {
-    playPop();
-    const letterNum = card.getAttribute('data-letter');
-    const modal = document.getElementById('modal' + letterNum);
-    if (modal) {
-      modal.classList.add('open');
-    }
-  });
-});
+    // Cerrar modales al hacer click en la X
+    document.querySelectorAll('.close-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        playClose();
+        btn.closest('.letter-modal').classList.remove('open');
+      });
+    });
 
-// Cerrar modales al hacer click en la X
-document.querySelectorAll('.close-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    playClose();
-    btn.closest('.letter-modal').classList.remove('open');
-  });
-});
-
-// Cerrar modal al hacer click fuera del papel
-document.querySelectorAll('.letter-modal').forEach(modal => {
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      playClose();
-      modal.classList.remove('open');
-    }
-  });
+    // Cerrar modal al hacer click fuera del papel
+    document.querySelectorAll('.letter-modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          playClose();
+          modal.classList.remove('open');
+        }
+      });
+    });
 });
