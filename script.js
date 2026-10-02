@@ -279,12 +279,217 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Cerrar modal al hacer click fuera del papel
-    document.querySelectorAll('.letter-modal').forEach(modal => {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          playClose();
-          modal.classList.remove('open');
+        document.querySelectorAll('.letter-modal').forEach(modal => {
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+              playClose();
+              modal.classList.remove('open');
+            }
+          });
+        });
+
+        // === DESBLOQUEO PROGRESIVO: 4º MENSAJE AL ABRIR LAS 3 CARTAS ===
+        const openedLetters = new Set();
+        const totalLetters = 3;
+    
+        function checkAllLettersOpened() {
+          if (openedLetters.size === totalLetters) {
+            // Todas abiertas - mostrar mensaje especial
+            setTimeout(() => {
+              showSecretMessage();
+            }, 800);
+          }
+        }
+    
+        function showSecretMessage() {
+          // Crear modal especial final
+          const secretModal = document.createElement('div');
+          secretModal.className = 'letter-modal secret-modal';
+          secretModal.innerHTML = `
+            <div class="letter-paper secret-paper">
+              <span class="close-btn">&times;</span>
+              <div class="secret-content">
+                <div class="secret-icon">💫</div>
+                <h3>Lo lograste, Celes 💖</h3>
+                <p class="secret-text">
+                  Las tres cartas abiertas.<br>
+                  Tres pedacitos de corazón repartidos por la pantalla.<br><br>
+                  No hace falta que te diga lo mucho que significas.<br>
+                  Lo sabes. Lo siento. Lo escribo aquí para que no se olvide.<br><br>
+                  Gracias por ser mi persona favorita.<br>
+                  Por los días malos que se vuelven buenos solo con verte.<br>
+                  Por la forma en que haces que todo tenga sentido.<br><br>
+                  Te quiero de forma ridícula, infinita y sin condiciones.
+                </p>
+                <div class="secret-signature">— carlitos</div>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(secretModal);
+      
+          // Animación de entrada
+          requestAnimationFrame(() => {
+            secretModal.classList.add('open');
+          });
+      
+          // Sonido especial
+          playChime();
+          setTimeout(() => playHeart(), 200);
+      
+          // Cerrar al click en X o fuera
+          const closeSecret = () => {
+            playClose();
+            secretModal.classList.remove('open');
+            setTimeout(() => secretModal.remove(), 400);
+          };
+      
+          secretModal.querySelector('.close-btn').addEventListener('click', closeSecret);
+          secretModal.addEventListener('click', (e) => {
+            if (e.target === secretModal) closeSecret();
+          });
+        }
+    
+        // Modificar apertura de cartas para trackear
+        const originalOpenLetter = document.querySelectorAll('.letter-card').forEach(card => {
+          // Los event listeners ya están añadidos arriba, necesitamos modificarlos
+        });
+    
+        // Reemplazar los listeners de click de las cartas para trackear
+        document.querySelectorAll('.letter-card').forEach(card => {
+          // Remover listener anterior (clonando el nodo)
+          const newCard = card.cloneNode(true);
+          card.parentNode.replaceChild(newCard, card);
+      
+          newCard.addEventListener('click', () => {
+            playPop();
+            const letterNum = newCard.getAttribute('data-letter');
+            const modal = document.getElementById('modal' + letterNum);
+            if (modal) {
+              modal.classList.add('open');
+              openedLetters.add(letterNum);
+              checkAllLettersOpened();
+            }
+          });
+          // Hover
+          newCard.addEventListener('mouseenter', () => playHover());
+        });
+
+        // === TECLAS RÁPIDAS ===
+        let currentOpenModal = null;
+        const letterOrder = ['1', '2', '3'];
+        let currentLetterIndex = -1;
+    
+        document.addEventListener('keydown', (e) => {
+          // ESC - cerrar modal abierto
+          if (e.key === 'Escape') {
+            const openModal = document.querySelector('.letter-modal.open, .secret-modal.open');
+            if (openModal) {
+              playClose();
+              openModal.classList.remove('open');
+              if (openModal.classList.contains('secret-modal')) {
+                setTimeout(() => openModal.remove(), 400);
+              }
+              currentOpenModal = null;
+              currentLetterIndex = -1;
+            }
+          }
+      
+          // ESPACIO - siguiente carta (si hay modal abierto)
+          if (e.key === ' ' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+        
+            // Si hay modal secreto abierto, no hacer nada
+            if (document.querySelector('.secret-modal.open')) return;
+        
+            const openModal = document.querySelector('.letter-modal.open');
+            if (openModal) {
+              // Cerrar actual
+              playClose();
+              openModal.classList.remove('open');
+          
+              // Encontrar siguiente
+              const currentNum = openModal.id.replace('modal', '');
+              currentLetterIndex = letterOrder.indexOf(currentNum);
+              const nextIndex = (currentLetterIndex + 1) % letterOrder.length;
+              const nextNum = letterOrder[nextIndex];
+          
+              setTimeout(() => {
+                const nextModal = document.getElementById('modal' + nextNum);
+                if (nextModal) {
+                  playPop();
+                  nextModal.classList.add('open');
+                  currentOpenModal = nextModal;
+                }
+              }, 300);
+            } else {
+              // Ninguna abierta - abrir la primera
+              playPop();
+              document.getElementById('modal1').classList.add('open');
+              currentOpenModal = document.getElementById('modal1');
+              currentLetterIndex = 0;
+            }
+          }
+        });
+
+        // === EASTER EGG: 3 CLICKS EN EL LAZO ===
+        let ribbonClicks = 0;
+        let ribbonClickTimer = null;
+        const ribbon = document.querySelector('.ribbon');
+        if (ribbon) {
+          ribbon.style.cursor = 'pointer';
+          ribbon.addEventListener('click', () => {
+            ribbonClicks++;
+            if (ribbonClickTimer) clearTimeout(ribbonClickTimer);
+        
+            if (ribbonClicks === 1) {
+              playClick();
+            } else if (ribbonClicks === 2) {
+              playHover();
+            } else if (ribbonClicks >= 3) {
+              // Easter egg activado!
+              playChime();
+              setTimeout(() => playHeart(), 150);
+          
+              // Mostrar mensaje secreto del lazo
+              const easterModal = document.createElement('div');
+              easterModal.className = 'letter-modal secret-modal';
+              easterModal.innerHTML = `
+                <div class="letter-paper secret-paper">
+                  <span class="close-btn">&times;</span>
+                  <div class="secret-content">
+                    <div class="secret-icon">🎀</div>
+                    <h3>¡Encontraste el secreto! 🎀</h3>
+                    <p class="secret-text">
+                      Tres clicks en el lazo...<br>
+                      Sabía que eras curiosa 😏<br><br>
+                      Este es el mensaje que solo ven<br>
+                      las personas que prestan atención a los detalles.<br><br>
+                      Te quiero más de lo que las palabras alcanzan.<br>
+                      Gracias por existir, Celes.
+                    </p>
+                    <div class="secret-signature">— carlitos</div>
+                  </div>
+                </div>
+              `;
+              document.body.appendChild(easterModal);
+              requestAnimationFrame(() => easterModal.classList.add('open'));
+          
+              const closeEaster = () => {
+                playClose();
+                easterModal.classList.remove('open');
+                setTimeout(() => easterModal.remove(), 400);
+              };
+              easterModal.querySelector('.close-btn').addEventListener('click', closeEaster);
+              easterModal.addEventListener('click', (e) => {
+                if (e.target === easterModal) closeEaster();
+              });
+          
+              ribbonClicks = 0;
+            }
+        
+            ribbonClickTimer = setTimeout(() => {
+              ribbonClicks = 0;
+            }, 1500); // Reset después de 1.5s
+          });
         }
       });
-    });
-});

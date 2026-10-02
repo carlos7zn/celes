@@ -203,6 +203,71 @@ body::before{
 }
 @keyframes flySparkle{0%{transform:translate(0,0) scale(1) rotate(0deg);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(.3) rotate(180deg);opacity:0}}
 
+/* Modales secretos (4º mensaje y easter egg) */
+.secret-modal {
+  z-index: 20000;
+}
+.secret-paper {
+  background: linear-gradient(135deg, #fffefb 0%, #fff8f0 100%);
+  border: 2px solid rgba(178, 255, 255, 0.4);
+  box-shadow: 
+    0 40px 80px rgba(47, 59, 74, 0.18),
+    0 0 60px rgba(178, 255, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  max-width: 500px;
+  padding: 50px 40px;
+}
+.secret-content {
+  text-align: center;
+}
+.secret-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  animation: floatSecret 3s ease-in-out infinite;
+}
+@keyframes floatSecret {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+.secret-paper h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 42px;
+  color: #1F2B36;
+  margin-bottom: 24px;
+  border-bottom: 2px dashed rgba(178, 255, 255, 0.5);
+  padding-bottom: 16px;
+}
+.secret-text {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #3a4a5a;
+  margin-bottom: 16px;
+  white-space: pre-line;
+}
+.secret-signature {
+  font-family: 'Caveat', cursive;
+  font-size: 32px;
+  color: #7FD1C8;
+  font-weight: 700;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(178, 255, 255, 0.4);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Firma en cartas normales */
+.letter-signature {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: var(--celeste-deep);
+  font-weight: 700;
+  margin-top: 24px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(178, 255, 255, 0.4);
+  text-align: right;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
 /* Partículas de luz que siguen al cursor */
 .light-particle {
   position: fixed;
