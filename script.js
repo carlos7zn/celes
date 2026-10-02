@@ -2,8 +2,9 @@
 const canvas = document.getElementById('hearts');
 const ctx = canvas.getContext('2d');
 let hearts = [];
+let W, H;
 function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
-let W, H; window.addEventListener('resize', resize); resize();
+window.addEventListener('resize', resize); resize();
 
 function spawnHeart(x,y){ hearts.push({x:x??Math.random()*W, y:y??Math.random()*H+H*0.3, vx:(Math.random()-0.5)*0.5, vy:-Math.random()*0.9-0.4, size:Math.random()*18+14, emoji:['💙','💖','🩵','✨','⭐'][Math.floor(Math.random()*5)], alpha:1, sway:Math.random()*Math.PI*2, swaySpeed:Math.random()*0.02+0.005}); }
 for(let i=0;i<20;i++) spawnHeart();
@@ -26,7 +27,8 @@ const resultBox = document.getElementById('resultBox');
 
 let isMoving=false, lastX=null, lastY=null;
 
-// Inicialización SIN mover el botón
+// Capturar posición visual ANTES de mover
+const initialRect = noBtn.getBoundingClientRect();
 if (noBtn.parentNode !== document.body) document.body.appendChild(noBtn);
 noBtn.style.position='fixed';
 noBtn.style.zIndex='9999';
@@ -34,9 +36,8 @@ noBtn.style.left='0px';
 noBtn.style.top='0px';
 noBtn.style.margin='0';
 noBtn.style.transition='transform 0.48s cubic-bezier(0.34,1.56,0.64,1)';
-// Posición inicial: copiar su rect actual al transform para evitar salto
-const r=noBtn.getBoundingClientRect();
-noBtn.style.transform=`translate(${r.left}px, ${r.top}px)`;
+// Colocar exactamente donde estaba visualmente
+noBtn.style.transform=`translate(${initialRect.left}px, ${initialRect.top}px)`;
 
 function moveNo(){
   if(isMoving) return;
