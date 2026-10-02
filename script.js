@@ -32,19 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const noTexts = [
     'Nop 🫣',
     '¿Seguro? 🥺',
-    'Eres única 💫',
-    'Tu luz lo cambia todo ✨',
-    'Nadie te iguala 💙',
-    'Haces mágico lo simple 🌟',
-    'Tu risa es mi canción 🎵',
-    'Eres calma y tormenta 🌊',
-    'Contigo todo tiene sentido 🧭',
-    'Tu forma de ver el mundo 🌍',
-    'Haces mejor cada día ☀️',
-    'Eres hogar 🏠',
-    'Tu bondad no tiene fin 🤍',
-    'Inspiras sin querer 🦋',
-    'Simplemente... tú 💖'
+    'Eres genial 💫',
+    'Me caes muy bien ✨',
+    'Nadie como tú 💙',
+    'Haces todo más fácil 🌟',
+    'Tu forma de reír 🎵',
+    'Eres tranquila y real 🌊',
+    'Contigo tiene sentido 🧭',
+    'Tu punto de vista 🌍',
+    'Mejoras los días ☀️',
+    'Eres de fiar 🏠',
+    'Buena gente de verdad 🤍',
+    'Inspiras sin avisar 🦋',
+    'Solo tú 💖'
   ];
 
   // LÓGICA DE MOVIMIENTO SIN ERRORES Y PERFECTA
