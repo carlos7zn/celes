@@ -27,11 +27,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isMoving = false, lastX = null, lastY = null;
   let initialized = false;
+  let noClickCount = 0;
+
+  const noTexts = [
+    'Nop 🫣',
+    '¿Seguro? 🥺',
+    'Venga, dale al sí... 💙',
+    'No me hagas esto 😭',
+    'Tu corazón dice que sí 💖',
+    '¡No seas así! ✨',
+    'Un "sí" cambia todo 🌈',
+    'Por fa por fa por fa 🙏',
+    'Me haces pucheritos 😔',
+    'El "Sí" brilla más ✨',
+    'Dale, que me haces ilusión 🥰',
+    'No me digas que no 💔',
+    'Un "sí" por favor 🫶',
+    'Te prometo que merece la pena 💫',
+    'Solo una vez... 🤞'
+  ];
 
   // LÓGICA DE MOVIMIENTO SIN ERRORES Y PERFECTA
   function moveNo(e){
     if (isMoving) return;
     isMoving = true;
+
+    // Cambiar texto del botón No para convencer
+    noClickCount++;
+    if (noBtn && noTexts[noClickCount % noTexts.length]) {
+      noBtn.textContent = noTexts[noClickCount % noTexts.length];
+    }
 
     initAudio(); 
     playBiu();
