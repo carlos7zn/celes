@@ -32,19 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const noTexts = [
     'Nop 🫣',
     '¿Seguro? 🥺',
-    'Lo sabes perfectamente 💙',
-    'Eres la mejor, sin duda ✨',
-    'Nadie lo hace como tú 💖',
-    'Eres la número uno 🌟',
-    'Eso ni se discute 🥰',
-    'Lo tienes clarísimo 💫',
-    'La mejor, punto 🌸',
-    'Sin competencia 💕',
-    'Mi favorita absoluta 💗',
-    'Eres top 💖',
-    'La mejor de todas 💙',
-    'Lo sabes y me gustas más 🩷',
-    'La mejor 💖'
+    'Vale, te lo digo yo: eres la mejor 💙',
+    'No me hagas repetirlo ✨',
+    'ERES LA MEJOR, PUNTO 💖',
+    '¿Cuántas veces te lo digo? 🌟',
+    'Te niegas a verlo 🥲',
+    'Es un hecho, acéptalo 💫',
+    'LA MEJOR. PUNTO. 🌸',
+    'Me estoy enfadando... 💕',
+    '¡QUE ERES LA MEJOR! 💗',
+    'No hay debate posible 💖',
+    'TE LO GRITO: ERES LA MEJOR 💙',
+    'Vale, ya me has sacado de quicio 🩷',
+    'LA MEJOR, CARAJO 💖'
   ];
 
   // LÓGICA DE MOVIMIENTO SIN ERRORES Y PERFECTA
