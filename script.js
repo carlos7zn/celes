@@ -32,19 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const noTexts = [
     'Nop 🫣',
     '¿Seguro? 🥺',
-    'Venga, dale al sí... 💙',
-    'No me hagas esto 😭',
-    'Tu corazón dice que sí 💖',
-    '¡No seas así! ✨',
-    'Un "sí" cambia todo 🌈',
-    'Por fa por fa por fa 🙏',
-    'Me haces pucheritos 😔',
-    'El "Sí" brilla más ✨',
-    'Dale, que me haces ilusión 🥰',
-    'No me digas que no 💔',
-    'Un "sí" por favor 🫶',
-    'Te prometo que merece la pena 💫',
-    'Solo una vez... 🤞'
+    'Piensa en lo que me haces sentir 💙',
+    'No me digas que no... 😔',
+    'Eres la única que quiero aquí 💫',
+    'Vamos, que lo sabes 🤞',
+    'No rompas la magia ✨',
+    'Un "sí" lo cambia todo 🌊',
+    'No me hagas insistir 😅',
+    'Mi corazón ya decidió por ti 💖',
+    'Dale, confía en mí 🤍',
+    'No te arrepentirás 🤞',
+    'Solo tú puedes decidir esto 💙',
+    'Mereces lo mejor, y yo quiero dártelo 🌟',
+    '¿De verdad vas a decir que no? 🥺'
   ];
 
   // LÓGICA DE MOVIMIENTO SIN ERRORES Y PERFECTA
