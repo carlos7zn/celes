@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'Me estoy enfadando... 💕',
     '¡QUE ERES LA MEJOR! 💗',
     'No hay debate posible 💖',
-    'TE LO GRITO: ERES LA MEJOR 💙'
+    'TE LO GRITO: ERES LA MEJOR 💙',
+    'ERES LA MEJOR Y YA, CELES 💖'
   ];
 
   // LÓGICA DE MOVIMIENTO SIN ERRORES Y PERFECTA
@@ -52,8 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cambiar texto del botón No para convencer
     noClickCount++;
-    if (noBtn && noTexts[noClickCount % noTexts.length]) {
-      noBtn.textContent = noTexts[noClickCount % noTexts.length];
+    const textIndex = Math.min(noClickCount, noTexts.length - 1);
+    if (noBtn && noTexts[textIndex]) {
+      noBtn.textContent = noTexts[textIndex];
     }
 
     initAudio(); 
