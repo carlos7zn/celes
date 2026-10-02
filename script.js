@@ -44,28 +44,31 @@ function draw(){
 draw();
 setInterval(()=>{ if(hearts.length < 18) spawnHeart(); }, 400);
 
-// No huyendo en toda la pantalla
+// No huye de anywhere
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 const questionBox = document.getElementById('questionBox');
 const resultBox = document.getElementById('resultBox');
 
-function moveNo(e){
+function moveNo(){
   noBtn.style.position = 'fixed';
   noBtn.style.left = 0; noBtn.style.top = 0;
   const maxX = Math.max(20, W - noBtn.offsetWidth - 20);
   const maxY = Math.max(20, H - noBtn.offsetHeight - 20);
-  let x, y;
-  do{
-    x = Math.random()*maxX;
-    y = Math.random()*maxY;
-  }while(Math.hypot(x + noBtn.offsetWidth/2 - (e.clientX||W/2), y + noBtn.offsetHeight/2 - (e.clientY||H/2)) < 120);
+  const x = Math.random()*maxX;
+  const y = Math.random()*maxY;
   noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
 
-noBtn.addEventListener('mouseenter', (e)=>moveNo(e));
-noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNo({clientX:e.touches[0].clientX, clientY:e.touches[0].clientY}); }, {passive:false});
-noBtn.addEventListener('click', (e)=>{ e.preventDefault(); moveNo(e); });
+// Mousedown = se mueve ANTES de que el click se resuelva
+noBtn.addEventListener('mousedown', moveNo);
+noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNo(); }, {passive:false});
+
+// Click en No = nunca se procesa, siempre huye
+noBtn.addEventListener('click', (e)=>{
+  e.preventDefault();
+  moveNo();
+});
 
 // Sí
 yesBtn.addEventListener('click', ()=>{
