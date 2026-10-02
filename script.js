@@ -92,7 +92,7 @@ let lastX = null;
 let lastY = null;
 
 function initNoBtn(){
-  // Mover al body y fijar estilo base UNA SOLA VEZ al cargar
+  // Mover al body SOLO una vez, sin cambiar posición visual
   if(noBtn.parentNode !== document.body){
     document.body.appendChild(noBtn);
   }
@@ -103,15 +103,15 @@ function initNoBtn(){
   noBtn.style.zIndex = '9999';
   noBtn.style.transition = 'transform 0.48s cubic-bezier(0.34, 1.56, 0.64, 1)';
 
-  // Forzar un reflow para que el navegador "conozca" la posición inicial
-  // antes de aplicar cualquier transformación.
-  // Esto evita el salto al primer hover.
-  const currentTransform = window.getComputedStyle(noBtn).transform;
-  noBtn.style.transform = currentTransform;
-  void noBtn.offsetWidth; // Forzar reflow
+  // Forzar reflow para que el navegador sepa la posición inicial
+  void noBtn.offsetWidth;
+  
+  // Posicionar el botón exactamente donde estaba en el flujo (sin moverlo)
+  const rect = noBtn.getBoundingClientRect();
+  noBtn.style.transform = `translate(${rect.left}px, ${rect.top}px)`;
 }
 
-// Inicializar inmediatamente tras cargar
+// Inicializar inmediatamente al cargar
 initNoBtn();
 
 function moveNo(e){
@@ -138,7 +138,6 @@ function moveNo(e){
   lastX = x;
   lastY = y;
 
-  // Movimiento animado desde la posición actual
   requestAnimationFrame(() => {
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
     setTimeout(()=>{ isMoving = false; }, 480);
