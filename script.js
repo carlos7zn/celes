@@ -44,10 +44,105 @@ document.addEventListener('DOMContentLoaded', () => {
   function playWhoosh(){ try{ initAudio(); if(audioCtx.state==='suspended') audioCtx.resume(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); o.type='sawtooth'; o.frequency.setValueAtTime(400,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(100,audioCtx.currentTime+0.08); g.gain.setValueAtTime(0.08,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.08); o.start(); o.stop(audioCtx.currentTime+0.08);}catch(e){} }
 
   // === ESTELA DEL CURSOR ===
-  document.addEventListener('pointermove', e=>{ if(Math.random()>0.45) return; const count = Math.random() > 0.7 ? 2 : 1; for(let i=0;i<count;i++){ const s=document.createElement('div'); s.className='trail-sparkle'; s.textContent=['✨','⭐','🩵','🤍','🫧'][Math.floor(Math.random()*5)]; const offsetX = (Math.random()-0.5)*8; const offsetY = (Math.random()-0.5)*8; s.style.left=`${e.clientX + offsetX}px`; s.style.top=`${e.clientY + offsetY}px`; const dx=(Math.random()-0.5)*60, dy=-Math.random()*60-20; s.style.setProperty('--dx',`${dx}px`); s.style.setProperty('--dy',`${dy}px`); document.body.appendChild(s); setTimeout(()=>s.remove(),800);} 
-    // Sonido sparkle muy sutil (solo 10% de las veces para no saturar)
-    if (Math.random() < 0.1) playSparkle();
-  });
+    document.addEventListener('pointermove', e=>{ if(Math.random()>0.45) return; const count = Math.random() > 0.7 ? 2 : 1; for(let i=0;i<count;i++){ const s=document.createElement('div'); s.className='trail-sparkle'; s.textContent=['✨','⭐','🩵','🤍','🫧'][Math.floor(Math.random()*5)]; const offsetX = (Math.random()-0.5)*8; const offsetY = (Math.random()-0.5)*8; s.style.left=`${e.clientX + offsetX}px`; s.style.top=`${e.clientY + offsetY}px`; const dx=(Math.random()-0.5)*60, dy=-Math.random()*60-20; s.style.setProperty('--dx',`${dx}px`); s.style.setProperty('--dy',`${dy}px`); document.body.appendChild(s); setTimeout(()=>s.remove(),800);} 
+      // Sonido sparkle muy sutil (solo 10% de las veces para no saturar)
+      if (Math.random() < 0.1) playSparkle();
+    });
+
+    // === PARALLAX EN BLURS DE FONDO ===
+    const bgBlobs = document.querySelector('body::before') || document.body;
+    // Usamos una variable CSS para el parallax suave
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+  
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / innerHeight - 0.5) * 2;
+    });
+  
+    function animateParallax() {
+      // Suavizado con lerp
+      currentX += (mouseX - currentX) * 0.05;
+      currentY += (mouseY - currentY) * 0.05;
+    
+      // Aplicamos transform al body::before mediante variable CSS
+      document.documentElement.style.setProperty('--parallax-x', `${currentX * 15}px`);
+      document.documentElement.style.setProperty('--parallax-y', `${currentY * 15}px`);
+    
+      requestAnimationFrame(animateParallax);
+    }
+    animateParallax();
+
+    // === PARTÍCULAS DE LUZ QUE SIGUEN AL CURSOR ===
+    const lightParticles = [];
+    const maxLightParticles = 8;
+  
+    function createLightParticle(x, y) {
+      const p = document.createElement('div');
+      p.className = 'light-particle';
+      const size = Math.random() * 6 + 4;
+      p.style.width = `${size}px`;
+      p.style.height = `${size}px`;
+      p.style.left = `${x}px`;
+      p.style.top = `${y}px`;
+      // Colores suaves celeste/rosa
+      const hue = Math.random() > 0.5 ? 180 : 340; // celeste o rosa
+      p.style.background = `hsla(${hue}, 80%, 70%, 0.6)`;
+      p.style.boxShadow = `0 0 ${size * 3}px hsla(${hue}, 80%, 70%, 0.8)`;
+      document.body.appendChild(p);
+    
+      return {
+        el: p,
+        x, y,
+        targetX: x,
+        targetY: y,
+        vx: 0, vy: 0,
+        life: 1,
+        decay: 0.008 + Math.random() * 0.005
+      };
+    }
+  
+    function animateLightParticles() {
+      const now = performance.now();
+    
+      // Crear nueva partícula ocasionalmente
+      if (lightParticles.length < maxLightParticles && Math.random() < 0.15) {
+        lightParticles.push(createLightParticle(mouseX * innerWidth / 2 + innerWidth / 2, mouseY * innerHeight / 2 + innerHeight / 2));
+      }
+    
+      for (let i = lightParticles.length - 1; i >= 0; i--) {
+        const p = lightParticles[i];
+      
+        // Suavizado hacia el ratón
+        const dx = p.targetX - p.x;
+        const dy = p.targetY - p.y;
+        p.vx += dx * 0.08;
+        p.vy += dy * 0.08;
+        p.vx *= 0.92;
+        p.vy *= 0.92;
+        p.x += p.vx;
+        p.y += p.vy;
+      
+        // Actualizar target hacia posición actual del ratón
+        p.targetX = mouseX * innerWidth / 2 + innerWidth / 2;
+        p.targetY = mouseY * innerHeight / 2 + innerHeight / 2;
+      
+        // Decay
+        p.life -= p.decay;
+      
+        // Aplicar estilos
+        p.el.style.transform = `translate(${p.x}px, ${p.y}px) scale(${p.life})`;
+        p.el.style.opacity = p.life * 0.6;
+      
+        if (p.life <= 0) {
+          p.el.remove();
+          lightParticles.splice(i, 1);
+        }
+      }
+    
+      requestAnimationFrame(animateLightParticles);
+    }
+    animateLightParticles();
 
   const noBtn = document.getElementById('noBtn');
   const yesBtn = document.getElementById('yesBtn');
