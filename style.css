@@ -12,7 +12,7 @@ body::before{content:'';position:fixed;inset:-20%;background:radial-gradient(600
 @keyframes rise{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 .content-box::after{content:'';position:absolute;inset:-50%;background:conic-gradient(from 0deg,transparent,rgba(178,255,255,.15),transparent 35%);animation:spin 24s linear infinite;z-index:0;pointer-events:none}
 @keyframes spin{to{transform:rotate(360deg)}}
-.content-box>*{position:relative;z-index:1}
+.content-box > *{position:relative;z-index:1}
 .badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--celeste-deep);background:rgba(178,255,255,.22);border:1px solid rgba(178,255,255,.55);padding:6px 12px;border-radius:999px;margin-bottom:18px}
 .title{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(44px,10vw,70px);line-height:1.05;color:#1F2B36;margin-bottom:10px;text-shadow:0 2px 0 rgba(255,255,255,.7),0 6px 20px rgba(127,209,200,.25)}
 .subtitle{font-size:16px;color:var(--texto);opacity:.85;margin-bottom:32px;line-height:1.4}
@@ -23,6 +23,7 @@ body::before{content:'';position:fixed;inset:-20%;background:radial-gradient(600
 .btn-yes:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(127,209,200,.6)}
 .btn-no{background:linear-gradient(135deg,var(--rosa),#FFB8C6);color:#fff;box-shadow:0 12px 28px rgba(255,184,198,.45)}
 .btn-no:hover{box-shadow:0 16px 34px rgba(255,184,198,.6)}
+#noBtn{transition:transform 0.48s cubic-bezier(0.34,1.56,0.64,1) !important;will-change:transform}
 .polaroid{background:#fff;padding:14px 14px 28px;border-radius:4px;box-shadow:0 16px 40px rgba(47,59,74,.14),0 2px 10px rgba(0,0,0,.04);transform:rotate(-3deg);display:inline-block;margin:14px auto 26px;max-width:280px;width:100%;animation:floatPolaroid 5s ease-in-out infinite alternate;border:1px solid rgba(0,0,0,.04)}
 @keyframes floatPolaroid{0%{transform:rotate(-3deg) translateY(0)}100%{transform:rotate(1deg) translateY(-8px)}}
 .polaroid img{width:100%;border-radius:2px;display:block}
