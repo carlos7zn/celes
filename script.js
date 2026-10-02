@@ -42,9 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'Me estoy enfadando... 💕',
     '¡QUE ERES LA MEJOR! 💗',
     'No hay debate posible 💖',
-    'TE LO GRITO: ERES LA MEJOR 💙',
-    'Vale, ya me has sacado de quicio 🩷',
-    'LA MEJOR, CARAJO 💖'
+    'TE LO GRITO: ERES LA MEJOR 💙'
   ];
 
   // LÓGICA DE MOVIMIENTO SIN ERRORES Y PERFECTA
