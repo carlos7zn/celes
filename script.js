@@ -81,7 +81,7 @@ document.addEventListener('pointermove', (e)=>{ if(Math.random()>0.18) return;
   document.body.appendChild(s); setTimeout(()=>s.remove(),800);
 });
 
-// Botón No que huye con movimiento natural siempre animado
+// Botón No que huye con animación perfecta desde el primer movimiento
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 const questionBox = document.getElementById('questionBox');
@@ -91,26 +91,35 @@ let isMoving = false;
 let lastX = null;
 let lastY = null;
 
-function moveNo(e){
-  if (isMoving) return;
-  isMoving = true;
-
-  initAudio();
-  
-  // 1. Asegurar que está fuera del overflow
+function initNoBtn(){
+  // Mover al body y fijar estilo base UNA SOLA VEZ al cargar
   if(noBtn.parentNode !== document.body){
     document.body.appendChild(noBtn);
   }
-  
-  // 2. Estilo fijo base
   noBtn.style.position = 'fixed';
   noBtn.style.left = '0px';
   noBtn.style.top = '0px';
   noBtn.style.margin = '0';
   noBtn.style.zIndex = '9999';
-
-  // 3. Asegurar transición para el primer movimiento
   noBtn.style.transition = 'transform 0.48s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+  // Forzar un reflow para que el navegador "conozca" la posición inicial
+  // antes de aplicar cualquier transformación.
+  // Esto evita el salto al primer hover.
+  const currentTransform = window.getComputedStyle(noBtn).transform;
+  noBtn.style.transform = currentTransform;
+  void noBtn.offsetWidth; // Forzar reflow
+}
+
+// Inicializar inmediatamente tras cargar
+initNoBtn();
+
+function moveNo(e){
+  if (isMoving) return;
+  isMoving = true;
+
+  initAudio();
+  playBiu();
 
   const viewW = window.innerWidth;
   const viewH = window.innerHeight;
@@ -129,10 +138,9 @@ function moveNo(e){
   lastX = x;
   lastY = y;
 
-  // 4. Animación fluida desde la posición actual
+  // Movimiento animado desde la posición actual
   requestAnimationFrame(() => {
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    playBiu();
     setTimeout(()=>{ isMoving = false; }, 480);
   });
 }
