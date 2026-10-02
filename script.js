@@ -44,31 +44,65 @@ function draw(){
 draw();
 setInterval(()=>{ if(hearts.length < 18) spawnHeart(); }, 400);
 
-// No huye de anywhere
+// Lógica del botón No que huye
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 const questionBox = document.getElementById('questionBox');
 const resultBox = document.getElementById('resultBox');
 
-function moveNo(){
+function moveNo(e){
+  // IMPORTANTE: Como la tarjeta central tiene "overflow: hidden", si movemos el botón No
+  // fuera de ella usando position: fixed pero sigue siendo su hijo DOM, se recortará y desaparecerá.
+  // Para solucionarlo, movemos el botón para que sea hijo directo del body al primer movimiento.
+  if(noBtn.parentNode !== document.body){
+    document.body.appendChild(noBtn);
+  }
+
   noBtn.style.position = 'fixed';
-  noBtn.style.left = 0; noBtn.style.top = 0;
-  const maxX = Math.max(20, W - noBtn.offsetWidth - 20);
-  const maxY = Math.max(20, H - noBtn.offsetHeight - 20);
-  const x = Math.random()*maxX;
-  const y = Math.random()*maxY;
+  noBtn.style.left = '0px';
+  noBtn.style.top = '0px';
+  noBtn.style.margin = '0';
+  noBtn.style.zIndex = '9999'; // Por encima de todo
+
+  const viewW = window.innerWidth;
+  const viewH = window.innerHeight;
+
+  const btnW = noBtn.offsetWidth || 100;
+  const btnH = noBtn.offsetHeight || 45;
+
+  const maxX = viewW - btnW - 20;
+  const maxY = viewH - btnH - 20;
+
+  let x = Math.random() * maxX;
+  let y = Math.random() * maxY;
+
+  // Asegurar coordenadas dentro de la pantalla
+  x = Math.max(20, Math.min(x, maxX));
+  y = Math.max(20, Math.min(y, maxY));
+
   noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
 
-// pointerdown: preventDefault evita que el click se dispare en el botón
-noBtn.addEventListener('pointerdown', (e)=>{
-  e.preventDefault();
-  moveNo();
+// Escapa al pasar el ratón por encima (hover)
+noBtn.addEventListener('pointerover', (e) => {
+  moveNo(e);
 });
 
-// Sí
+// Escapa inmediatamente al intentar pulsar con click o toque táctil
+noBtn.addEventListener('pointerdown', (e) => {
+  e.preventDefault();
+  moveNo(e);
+});
+
+// Evitar cualquier comportamiento por defecto de click
+noBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  moveNo(e);
+});
+
+// Al pulsar SÍ
 yesBtn.addEventListener('click', ()=>{
-  const cx = W/2, cy = H/2;
+  const cx = window.innerWidth/2, cy = window.innerHeight/2;
   for(let i=0;i<80;i++){
     setTimeout(()=>spawnHeart(cx + (Math.random()-0.5)*300, cy + (Math.random()-0.5)*200), i*18);
   }
