@@ -81,65 +81,52 @@ document.addEventListener('pointermove', (e)=>{ if(Math.random()>0.18) return;
   document.body.appendChild(s); setTimeout(()=>s.remove(),800);
 });
 
-// Botón No que huye con fluidez
+// Botón No que huye con fluidez incluso en el primer movimiento
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 const questionBox = document.getElementById('questionBox');
 const resultBox = document.getElementById('resultBox');
 
-/**
- * Corrige el 'salto de esquina' al primer movimiento.
- * El botón inicia dentro de una tarjeta con overflow:hidden.
- * Antes de moverlo, lo sacamos del flujo, lo pasamos al body, esperamos al siguiente frame
- * para que el navegador calcule su ancho real y solo entonces le aplicamos la primera posición.
- */
-let firstMoveDone = false;
-
 function moveNo(e){
   initAudio();
   
-  // 1. Asegurar que sea hijo del body para que no se recorte
+  // Asegurar que está fuera del overflow
   if(noBtn.parentNode !== document.body){
     document.body.appendChild(noBtn);
   }
   
-  // Estilo fijo base para todo movimiento futuro
+  // Configuración base del estilo fijo
   noBtn.style.position = 'fixed';
   noBtn.style.left = '0px';
   noBtn.style.top = '0px';
   noBtn.style.margin = '0';
   noBtn.style.zIndex = '9999';
 
-  const getRandomCoords = () => {
+  // Forzar un render inicial sin animación para medir dimensiones
+  noBtn.style.transition = 'none';
+  // Posición inicial sin animación para medir tamaño
+  noBtn.style.transform = 'translate(0px, 0px)';
+
+  // Medición en el siguiente frame para tener dimensiones correctas
+  requestAnimationFrame(() => {
+    // Activar transición suave
+    noBtn.style.transition = 'transform 0.48s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    
     const viewW = window.innerWidth;
     const viewH = window.innerHeight;
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
+    
     const maxX = viewW - btnW - 20;
     const maxY = viewH - btnH - 20;
+
     const x = Math.max(20, Math.min(Math.random()*maxX, maxX));
     const y = Math.max(20, Math.min(Math.random()*maxY, maxY));
-    return {x, y};
-  };
 
-  const {x, y} = getRandomCoords();
-
-  // Primer movimiento: evitar el salto de esquina inicial con un "commit" en el siguiente frame.
-  if(!firstMoveDone){
-    // Ponemos el botón inmediatamente en el centro de la pantalla para evitar la esquina inicial.
-    noBtn.style.transform = `translate(${window.innerWidth/2 - noBtn.offsetWidth/2}px, ${window.innerHeight/2 - noBtn.offsetHeight/2}px)`;
-    
-    // Reprogramamos para el siguiente frame del navegador
-    requestAnimationFrame(()=>{
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-      firstMoveDone = true;
-    });
-  } else {
-    // Movimientos posteriores con transición fluida
+    // Ahora sì, aplicamos el movimiento con animación
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
-  }
-
-  playBiu();
+    playBiu();
+  });
 }
 
 // Escapa al pasar el ratón o tocar
