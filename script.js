@@ -60,12 +60,8 @@ function moveNo(){
   noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
 
-// Mousedown = se mueve ANTES de que el click se resuelva
-noBtn.addEventListener('mousedown', moveNo);
-noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNo(); }, {passive:false});
-
-// Click en No = nunca se procesa, siempre huye
-noBtn.addEventListener('click', (e)=>{
+// pointerdown: preventDefault evita que el click se dispare en el botón
+noBtn.addEventListener('pointerdown', (e)=>{
   e.preventDefault();
   moveNo();
 });
