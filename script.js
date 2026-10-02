@@ -19,7 +19,7 @@ function playChime(){ try{ initAudio(); if(audioCtx.state==='suspended') audioCt
 // Estela cursor
 document.addEventListener('pointermove', e=>{ if(Math.random()>0.18) return; const s=document.createElement('div'); s.className='trail-sparkle'; s.textContent=['✨','⭐','🩵','🤍','🫧'][Math.floor(Math.random()*5)]; s.style.left=`${e.clientX}px`; s.style.top=`${e.clientY}px`; const dx=(Math.random()-0.5)*60; const dy=-Math.random()*60-20; s.style.setProperty('--dx',`${dx}px`); s.style.setProperty('--dy',`${dy}px`); document.body.appendChild(s); setTimeout(()=>s.remove(),800); });
 
-// Botón No
+// Botón No perfecto
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 const questionBox = document.getElementById('questionBox');
@@ -27,17 +27,20 @@ const resultBox = document.getElementById('resultBox');
 
 let isMoving=false, lastX=null, lastY=null;
 
-// Capturar posición visual ANTES de mover
+// 1. Capturar rect natural ANTES de tocar el estilo
 const initialRect = noBtn.getBoundingClientRect();
+
+// 2. Mover al body y fijar, pero conservar posición visual inicial
 if (noBtn.parentNode !== document.body) document.body.appendChild(noBtn);
 noBtn.style.position='fixed';
-noBtn.style.zIndex='9999';
 noBtn.style.left='0px';
 noBtn.style.top='0px';
 noBtn.style.margin='0';
-noBtn.style.transition='transform 0.48s cubic-bezier(0.34,1.56,0.64,1)';
-// Colocar exactamente donde estaba visualmente
+noBtn.style.zIndex='9999';
+// 3. Trasladar a su posición natural primero
 noBtn.style.transform=`translate(${initialRect.left}px, ${initialRect.top}px)`;
+// 4. Ahora sí activamos transición
+requestAnimationFrame(()=>{ noBtn.style.transition='transform 0.48s cubic-bezier(0.34,1.56,0.64,1)'; });
 
 function moveNo(){
   if(isMoving) return;
