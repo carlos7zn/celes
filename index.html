@@ -1,1 +1,111 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Para Celeste 🩵</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body><canvas id="hearts"></canvas><main class="wrapper"><div class="content-box" id="questionBox"><div class="ribbon">🎀</div><span class="badge">un secreto para ti... 🩵</span><h1 class="title">¿Hacemos un trato? 👉👈</h1><p class="subtitle">El botón "No" funciona perfectamente... si logras atraparlo.</p><div class="btn-row"><button class="btn btn-yes" id="yesBtn">¡Obvio! 🩵</button><button class="btn btn-no" id="noBtn">Nop 🫣</button></div></div><div class="content-box result-box" id="resultBox" style="display:none"><div class="polaroid"><img src="cat.gif" alt="Gato con corazones" class="cat-gif"><div class="polaroid-caption">celeste + michi 🩵</div></div><h2 class="result-title">Te adoro, Celes 🩵</h2><p class="result-text">Sabía que harías todo más bonito. ¡Gracias por estar aquí! ✨</p></div></main><script src="script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Celeste 🩵</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="hearts"></canvas>
+
+<main class="wrapper">
+  <div class="content-box" id="questionBox">
+    <div class="ribbon">🎀</div>
+    <span class="badge">un secreto para ti... 🩵</span>
+    <h1 class="title">¿Hacemos un trato? 👉👈</h1>
+    <p class="subtitle">El botón "No" funciona perfectamente... si logras atraparlo.</p>
+    <div class="btn-row">
+      <button class="btn btn-yes" id="yesBtn">¡Obvio! 🩵</button>
+      <button class="btn btn-no" id="noBtn">Nop 🫣</button>
+    </div>
+  </div>
+
+  <div class="content-box result-box" id="resultBox" style="display: none;">
+    <div class="polaroid">
+      <img src="cat.gif" alt="Gato con corazones" class="cat-gif">
+      <div class="polaroid-caption">celeste + michi 🩵</div>
+    </div>
+    <h2 class="result-title">Te adoro, Celes 🩵</h2>
+    <p class="result-text">Sabía que harías todo más bonito. ¡Gracias por estar aquí! ✨</p>
+
+    <!-- Sección de cartas interactivas -->
+    <div class="letters-section">
+      <p class="letters-intro">Te he dejado unos pequeños mensajitos guardados... Abre uno: 💌</p>
+      
+      <div class="letters-grid">
+        <!-- Carta 1 -->
+        <div class="letter-card" data-letter="1">
+          <div class="letter-cover">
+            <span class="letter-emoji">✉️</span>
+            <span class="letter-title">Mensaje #1</span>
+            <span class="letter-seal">🩵</span>
+          </div>
+        </div>
+
+        <!-- Carta 2 -->
+        <div class="letter-card" data-letter="2">
+          <div class="letter-cover">
+            <span class="letter-emoji">✉️</span>
+            <span class="letter-title">Mensaje #2</span>
+            <span class="letter-seal">💖</span>
+          </div>
+        </div>
+
+        <!-- Carta 3 -->
+        <div class="letter-card" data-letter="3">
+          <div class="letter-cover">
+            <span class="letter-emoji">✉️</span>
+            <span class="letter-title">Mensaje #3</span>
+            <span class="letter-seal">⭐</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modales para las cartas -->
+<div class="letter-modal" id="modal1">
+  <div class="letter-paper">
+    <span class="close-btn">&times;</span>
+    <h3>Para cuando sonrías... 🩵</h3>
+    <div class="letter-text">
+      <p>Este es un texto de prueba para la primera carta.</p>
+      <p>Aquí puedes escribir el primer mensaje tierno que le quieras mandar a Celeste. Haces que todo sea mucho más bonito con tan solo estar aquí.</p>
+      <p>Con cariño... ✨</p>
+    </div>
+  </div>
+</div>
+
+<div class="letter-modal" id="modal2">
+  <div class="letter-paper">
+    <span class="close-btn">&times;</span>
+    <h3>Para leer por la tarde... 🌧️</h3>
+    <div class="letter-text">
+      <p>Este es un texto de prueba para la segunda carta.</p>
+      <p>Aquí irá tu segundo mensaje personalizado. Puedes poner una anécdota, un chiste interno o algo tierno que le alegre el día.</p>
+      <p>Siempre aquí... 💖</p>
+    </div>
+  </div>
+</div>
+
+<div class="letter-modal" id="modal3">
+  <div class="letter-paper">
+    <span class="close-btn">&times;</span>
+    <h3>Para cuando me extrañes... ✨</h3>
+    <div class="letter-text">
+      <p>Este es un texto de prueba para la tercera carta.</p>
+      <p>Y aquí va el tercer mensaje especial. Ideal para cuando esté lejos o simplemente necesite un pequeño abrazo en forma de palabras.</p>
+      <p>Te quiero un montón... ⭐</p>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

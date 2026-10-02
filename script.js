@@ -98,3 +98,30 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(()=>{ resultBox.style.display = 'block'; }, 300);
   });
 });
+
+// === CARTAS INTERACTIVAS ===
+document.querySelectorAll('.letter-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const letterNum = card.getAttribute('data-letter');
+    const modal = document.getElementById('modal' + letterNum);
+    if (modal) {
+      modal.classList.add('open');
+    }
+  });
+});
+
+// Cerrar modales al hacer click en la X
+document.querySelectorAll('.close-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.letter-modal').classList.remove('open');
+  });
+});
+
+// Cerrar modal al hacer click fuera del papel
+document.querySelectorAll('.letter-modal').forEach(modal => {
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('open');
+    }
+  });
+});
