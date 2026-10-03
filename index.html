@@ -11,13 +11,27 @@
 </head>
 <body>
 
+<!-- === LOADING SCREEN === -->
+<div id="loading-screen" class="loading-screen">
+  <div class="loading-heart">💖</div>
+  <p class="loading-text">Cargando amor...</p>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+</div>
+
+<!-- === THEME TOGGLE === -->
+<button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar modo día/noche">
+  <span class="toggle-icon-sun">☀️</span>
+  <span class="toggle-icon-moon">🌙</span>
+</button>
+
 <canvas id="hearts"></canvas>
+<canvas id="stardust"></canvas>
 
 <main class="wrapper">
   <div class="content-box" id="questionBox">
     <div class="ribbon">🎀</div>
     <span class="badge">Para la mejor chica del mundo 🩵</span>
-    <h1 class="title">Sabes que eres la mejor ¿no? 🩵</h1>
+    <h1 class="title" id="mainTitle">Sabes que eres la mejor ¿no? 🩵</h1>
     <p class="subtitle">Espero que te guste 🩵</p>
     <div class="btn-row">
       <button class="btn btn-yes" id="yesBtn">¡Obvio! 🩵</button>
@@ -74,13 +88,8 @@
   <div class="letter-paper">
     <span class="close-btn">&times;</span>
     <h3>I 🩵</h3>
-    <div class="letter-text">
-      <p>You loved someone who loved the version of you<br>that bent, not the one who stood tall.</p>
-      <p>And when they left, you thought the fault was yours —<br>that you weren't enough, that you asked for too much.<br>But the truth is quieter:<br>they didn't know how to stay.</p>
-      <p>Healing isn't forgetting.<br>It's learning to hold your own hand<br>on the nights no one else does.<br>It's realizing you were never the problem —<br>you were just loved by someone<br>who didn't know how to keep you.</p>
-      <p>You are whole now.<br>Not because someone completed you,<br>but because you stopped waiting for them to.</p>
-      <p class="letter-signature">— carlitos</p>
-    </div>
+    <div class="letter-text" id="letterText1"></div>
+    <p class="letter-signature">— carlitos</p>
   </div>
 </div>
 
@@ -88,12 +97,8 @@
   <div class="letter-paper">
     <span class="close-btn">&times;</span>
     <h3>LOVE 🌧️</h3>
-    <div class="letter-text">
-      <p>There is a particular silence<br>that follows a love that broke you —<br>not the loud kind,<br>but the kind that settles in your ribs<br>when you stop explaining yourself to ghosts.</p>
-      <p>You don't need closure from them.<br>Closure is the morning you wake up<br>and their name doesn't taste like salt anymore.<br>It's the day you stop rehearsing conversations<br>you'll never have.</p>
-      <p>You are allowed to outgrow the pain.<br>You are allowed to be soft again.<br>You are allowed to love someone<br>who stays the first time.</p>
-      <p class="letter-signature">— carlitos</p>
-    </div>
+    <div class="letter-text" id="letterText2"></div>
+    <p class="letter-signature">— carlitos</p>
   </div>
 </div>
 
@@ -101,13 +106,8 @@
   <div class="letter-paper">
     <span class="close-btn">&times;</span>
     <h3>YOU ✨</h3>
-    <div class="letter-text">
-      <p>One day, someone will love you<br>without making you beg for the basics.<br>They will not call you "too much."<br>They will call you "mine."</p>
-      <p>And you'll look back at this version of you —<br>the one who cried on bathroom floors,<br>who rewrote texts ten times before sending,<br>who loved people who couldn't stay —<br>and you'll thank her.</p>
-      <p>Because she survived the love that wasn't enough<br>so you could recognize the one that is.</p>
-      <p>You're not behind.<br>You're not broken.<br>You're becoming.</p>
-      <p class="letter-signature">— carlitos</p>
-    </div>
+    <div class="letter-text" id="letterText3"></div>
+    <p class="letter-signature">— carlitos</p>
   </div>
 </div>
 

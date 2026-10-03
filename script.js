@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const letterNum = card.getAttribute('data-letter');
         const modal = document.getElementById('modal' + letterNum);
         if (modal) {
-          modal.classList.add('open');
+          modal.classList.add('open'); if (window.runTypewriter) window.runTypewriter(letterNum);
         }
       });
     });
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (openedLetters.size === totalLetters) {
             // Todas abiertas - mostrar mensaje especial
             setTimeout(() => {
-              showSecretMessage();
+              showSecretMessage(); if (window.launchConfetti) window.launchConfetti();
             }, 800);
           }
         }
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const letterNum = newCard.getAttribute('data-letter');
             const modal = document.getElementById('modal' + letterNum);
             if (modal) {
-              modal.classList.add('open');
+              modal.classList.add('open'); if (window.runTypewriter) window.runTypewriter(letterNum);
               openedLetters.add(letterNum);
               checkAllLettersOpened();
             }
@@ -492,4 +492,243 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1500); // Reset después de 1.5s
           });
         }
+      
+  // === 1. FAVICON ANIMADO (CORAZÓN LATENTE EN PESTAÑA) ===
+  function initAnimatedFavicon() {
+    const faviconCanvas = document.createElement('canvas');
+    faviconCanvas.width = 32;
+    faviconCanvas.height = 32;
+    const fctx = faviconCanvas.getContext('2d');
+    let link = document.querySelector("link[rel*='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'shortcut icon';
+      document.head.appendChild(link);
+    }
+    
+    let scale = 1;
+    let growing = true;
+    
+    function drawFavicon() {
+      fctx.clearRect(0, 0, 32, 32);
+      fctx.font = `${20 * scale}px serif`;
+      fctx.textAlign = 'center';
+      fctx.textBaseline = 'middle';
+      fctx.fillText('🩵', 16, 16);
+      
+      link.href = faviconCanvas.toDataURL('image/png');
+      
+      if (growing) {
+        scale += 0.02;
+        if (scale >= 1.25) growing = false;
+      } else {
+        scale -= 0.02;
+        if (scale <= 0.85) growing = true;
+      }
+    }
+    setInterval(drawFavicon, 150);
+  }
+  initAnimatedFavicon();
+
+  // === 2. LOADING SCREEN INITIAL ===
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    setTimeout(() => {
+      loadingScreen.classList.add('hidden');
+      setTimeout(() => loadingScreen.remove(), 600);
+    }, 2200);
+  }
+
+  // === 3. MODO NOCTURNO / DIURNO TOGGLE ===
+  const themeToggle = document.getElementById('theme-toggle');
+  let currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      playClick();
+      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('theme', currentTheme);
+    });
+  }
+
+  // === 4. CANVAS POLVO DE ESTRELLAS (STARDUST) EN FONDO ===
+  const stardustCanvas = document.getElementById('stardust');
+  if (stardustCanvas) {
+    const sctx = stardustCanvas.getContext('2d');
+    let sw = stardustCanvas.width = innerWidth;
+    let sh = stardustCanvas.height = innerHeight;
+    window.addEventListener('resize', () => {
+      sw = stardustCanvas.width = innerWidth;
+      sh = stardustCanvas.height = innerHeight;
+    });
+
+    const dustParticles = [];
+    for (let i = 0; i < 45; i++) {
+      dustParticles.push({
+        x: Math.random() * sw,
+        y: Math.random() * sh,
+        size: Math.random() * 2 + 0.5,
+        alpha: Math.random() * 0.8 + 0.2,
+        speed: Math.random() * 0.3 + 0.1,
+        angle: Math.random() * Math.PI * 2,
+        twinkleSpeed: Math.random() * 0.03 + 0.01
       });
+    }
+
+    function drawStardust() {
+      sctx.clearRect(0, 0, sw, sh);
+      dustParticles.forEach(p => {
+        p.y -= p.speed;
+        p.x += Math.sin(p.angle) * 0.2;
+        p.angle += 0.02;
+        p.alpha += Math.sin(p.angle) * p.twinkleSpeed;
+        
+        if (p.y < -10) p.y = sh + 10;
+        if (p.x < -10) p.x = sw + 10;
+        if (p.x > sw + 10) p.x = -10;
+
+        sctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0.1, Math.min(0.9, p.alpha))})`;
+        sctx.beginPath();
+        sctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        sctx.fill();
+      });
+      requestAnimationFrame(drawStardust);
+    }
+    drawStardust();
+  }
+
+  // === 5. CLICK RIPPLE EFFECT EN EL FONDO ===
+  document.addEventListener('click', (e) => {
+    // Si no es un botón ni carta ni modal
+    if (e.target.closest('button') || e.target.closest('.letter-card') || e.target.closest('.letter-paper')) return;
+    
+    const ripple = document.createElement('div');
+    ripple.className = 'click-ripple';
+    ripple.style.left = `${e.clientX}px`;
+    ripple.style.top = `${e.clientY}px`;
+    ripple.style.width = '40px';
+    ripple.style.height = '40px';
+    ripple.style.border = '2px solid rgba(178, 255, 255, 0.6)';
+    document.body.appendChild(ripple);
+    
+    // Disparar mini-burst de corazones pequeños
+    for (let i = 0; i < 6; i++) {
+      spawnHeart(e.clientX + (Math.random()-0.5)*40, e.clientY + (Math.random()-0.5)*40);
+    }
+    
+    setTimeout(() => ripple.remove(), 600);
+  });
+
+  // === 6. CONFETTI BURST AL DESBLOQUEAR MENSAJE SECRETO ===
+  window.launchConfetti = function() {
+    const colors = ['#B2FFFF', '#7FD1C8', '#FFD1DC', '#FFB8C6', '#ffffff', '#ffd700'];
+    const count = 70;
+    
+    for (let i = 0; i < count; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = `${innerWidth / 2}px`;
+      confetti.style.top = `${innerHeight / 2}px`;
+      confetti.style.width = `${Math.random() * 8 + 6}px`;
+      confetti.style.height = `${Math.random() * 8 + 6}px`;
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = Math.random() * 300 + 100;
+      const dx = Math.cos(angle) * velocity;
+      const dy = Math.sin(angle) * velocity - 100;
+      const rot = (Math.random() - 0.5) * 720;
+      
+      confetti.style.setProperty('--dx', `${dx}px`);
+      confetti.style.setProperty('--dy', `${dy}px`);
+      confetti.style.setProperty('--rot', `${rot}deg`);
+      
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 3000);
+    }
+  };
+
+  // === 7. TYPEWRITER EFFECT EN CARTAS ===
+  const letterTexts = {
+    '1': [
+      "You loved someone who loved the version of you\nthat bent, not the one who stood tall.",
+      "And when they left, you thought the fault was yours —\nthat you weren't enough, that you asked for too much.\nBut the truth is quieter:\nthey didn't know how to stay.",
+      "Healing isn't forgetting.\nIt's learning to hold your own hand\non the nights no one else does.\nIt's realizing you were never the problem —\nyou were just loved by someone\nwho didn't know how to keep you.",
+      "You are whole now.\nNot because someone completed you,\nbut because you stopped waiting for them to."
+    ],
+    '2': [
+      "There is a particular silence\nthat follows a love that broke you —\nnot the loud kind,\nbut the kind that settles in your ribs\nwhen you stop explaining yourself to ghosts.",
+      "You don't need closure from them.\nClosure is the morning you wake up\nand their name doesn't taste like salt anymore.\nIt's the day you stop rehearsing conversations\nyou'll never have.",
+      "You are allowed to outgrow the pain.\nYou are allowed to be soft again.\nYou are allowed to love someone\nwho stays the first time."
+    ],
+    '3': [
+      "One day, someone will love you\nwithout making you beg for the basics.\nThey will not call you \"too much.\"\nThey will call you \"mine.\"",
+      "And you'll look back at this version of you —\nthe one who cried on bathroom floors,\nwho rewrote texts ten times before sending,\nwho loved people who couldn't stay —\nand you'll thank her.",
+      "Because she survived the love that wasn't enough\nso you could recognize the one that is.",
+      "You're not behind.\nYou're not broken.\nYou're becoming."
+    ]
+  };
+
+  window.runTypewriter = function(letterNum) {
+    const container = document.getElementById('letterText' + letterNum);
+    if (!container) return;
+    
+    // Evitar volver a animar si ya está animado
+    if (container.dataset.typewriterDone === 'true') return;
+    container.dataset.typewriterDone = 'true';
+    
+    container.innerHTML = '';
+    const paragraphs = letterTexts[letterNum] || [];
+    
+    let paragraphIndex = 0;
+    
+    function typeNextParagraph() {
+      if (paragraphIndex >= paragraphs.length) return;
+      
+      const p = document.createElement('p');
+      container.appendChild(p);
+      const text = paragraphs[paragraphIndex];
+      let charIndex = 0;
+      
+      function typeChar() {
+        if (charIndex < text.length) {
+          const char = text.charAt(charIndex);
+          if (char === '\n') {
+            p.appendChild(document.createElement('br'));
+          } else {
+            const span = document.createElement('span');
+            span.className = 'typewriter-char';
+            span.textContent = char;
+            span.style.animationDelay = `${charIndex * 0.02}s`;
+            p.appendChild(span);
+          }
+          charIndex++;
+          setTimeout(typeChar, 18);
+        } else {
+          paragraphIndex++;
+          setTimeout(typeNextParagraph, 200);
+        }
+      }
+      typeChar();
+    }
+    typeNextParagraph();
+  };
+
+  // === 8. PARALLAX EN MÓVILES (GIROSCOPIO) ===
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', (e) => {
+      if (e.gamma !== null && e.beta !== null) {
+        const tiltX = Math.max(-20, Math.min(20, e.gamma)) * 0.8;
+        const tiltY = Math.max(-20, Math.min(20, e.beta - 45)) * 0.8;
+        document.documentElement.style.setProperty('--parallax-x', `${tiltX}px`);
+        document.documentElement.style.setProperty('--parallax-y', `${tiltY}px`);
+      }
+    });
+  }
+
+});
