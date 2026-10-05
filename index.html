@@ -6,33 +6,17 @@
 <title>Para Celeste 🩵</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- === LOADING SCREEN === -->
-<div id="loading-screen" class="loading-screen">
-  <div class="loading-heart">💖</div>
-  <p class="loading-text">Cargando amor...</p>
-  <div class="loading-bar"><div class="loading-fill"></div></div>
-</div>
-
-<!-- === THEME TOGGLE === -->
-<button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar modo día/noche">
-  <span class="toggle-icon-sun">☀️</span>
-  <span class="toggle-icon-moon">🌙</span>
-</button>
-
-<canvas id="hearts"></canvas>
-<canvas id="stardust"></canvas>
+<canvas id="heart-canvas"></canvas>
 
 <main class="wrapper">
   <div class="content-box" id="questionBox">
-    <div class="ribbon">🎀</div>
-    <span class="badge">Para la mejor chica del mundo 🩵</span>
     <h1 class="title" id="mainTitle">Sabes que te quiero mucho? 🩵</h1>
-    <p class="subtitle" style="font-size: 20px; color: #e91e63; margin-bottom: 30px;">Tengo algo por preguntarte</p>
+    <p class="subtitle">Tengo algo por preguntarte</p>
     <div class="button-container">
       <button class="btn btn-yes" id="yesBtn">Sí, por supuesto que sí</button>
       <button class="btn btn-no button-rosa" id="noBtn">Sí pero en gris</button>
@@ -42,7 +26,6 @@
   <div class="content-box result-box" id="resultBox" style="display: none;">
     <div class="love-text">Te adoro, Celes 🩵</div>
     <canvas id="heart-canvas"></canvas>
-
   </div>
 </main>
 
