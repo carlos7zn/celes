@@ -6,7 +6,7 @@
 <title>Para Celeste 🩵</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -32,84 +32,19 @@
     <div class="ribbon">🎀</div>
     <span class="badge">Para la mejor chica del mundo 🩵</span>
     <h1 class="title" id="mainTitle">Sabes que te quiero mucho? 🩵</h1>
-    <p class="subtitle">Espero que te guste 🩵</p>
-    <div class="btn-row">
-      <button class="btn btn-yes" id="yesBtn">¡Obvio! 🩵</button>
-      <button class="btn btn-no" id="noBtn">Nop 🫣</button>
+    <p class="subtitle" style="font-size: 20px; color: #e91e63; margin-bottom: 30px;">Tengo algo por preguntarte</p>
+    <div class="button-container">
+      <button class="btn btn-yes" id="yesBtn">Sí, por supuesto que sí</button>
+      <button class="btn btn-no button-rosa" id="noBtn">Sí pero en gris</button>
     </div>
   </div>
 
   <div class="content-box result-box" id="resultBox" style="display: none;">
-    <div class="polaroid">
-      <img src="cat.gif" alt="Gato con corazones" class="cat-gif">
-      <div class="polaroid-caption">TE AMOOOOO 🩵💖✨</div>
-    </div>
-    <h2 class="result-title">Te adoro, Celes 🩵</h2>
-    <p class="result-text">Gracias por estar siempre Celes 🩵</p>
+    <div class="love-text">Te adoro, Celes 🩵</div>
+    <canvas id="heart-canvas"></canvas>
 
-    <!-- Sección de cartas interactivas -->
-    <div class="letters-section">
-      <p class="letters-intro">MIRAAAAAA</p>
-      
-      <div class="letters-grid">
-        <!-- Carta 1 -->
-        <div class="letter-card" data-letter="1">
-          <div class="letter-cover">
-            <span class="letter-emoji">✉️</span>
-            <span class="letter-title">I</span>
-            <span class="letter-seal">🩵</span>
-          </div>
-        </div>
-
-        <!-- Carta 2 -->
-        <div class="letter-card" data-letter="2">
-          <div class="letter-cover">
-            <span class="letter-emoji">✉️</span>
-            <span class="letter-title">LOVE</span>
-            <span class="letter-seal">💖</span>
-          </div>
-        </div>
-
-        <!-- Carta 3 -->
-        <div class="letter-card" data-letter="3">
-          <div class="letter-cover">
-            <span class="letter-emoji">✉️</span>
-            <span class="letter-title">YOU</span>
-            <span class="letter-seal">⭐</span>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </main>
-
-<!-- Modales para las cartas -->
-<div class="letter-modal" id="modal1">
-  <div class="letter-paper">
-    <span class="close-btn">&times;</span>
-    <h3>I 🩵</h3>
-    <div class="letter-text" id="letterText1"></div>
-    <p class="letter-signature">— carlitos</p>
-  </div>
-</div>
-
-<div class="letter-modal" id="modal2">
-  <div class="letter-paper">
-    <span class="close-btn">&times;</span>
-    <h3>LOVE 🌧️</h3>
-    <div class="letter-text" id="letterText2"></div>
-    <p class="letter-signature">— carlitos</p>
-  </div>
-</div>
-
-<div class="letter-modal" id="modal3">
-  <div class="letter-paper">
-    <span class="close-btn">&times;</span>
-    <h3>YOU ✨</h3>
-    <div class="letter-text" id="letterText3"></div>
-    <p class="letter-signature">— carlitos</p>
-  </div>
-</div>
 
 <script src="script.js"></script>
 </body>
