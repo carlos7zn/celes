@@ -436,50 +436,149 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     
         function showSecretMessage() {
-          // Crear modal especial final
-          const secretModal = document.createElement('div');
-          secretModal.className = 'letter-modal secret-modal';
-          secretModal.innerHTML = `
-            <div class="letter-paper secret-paper">
-              <span class="close-btn">&times;</span>
-              <div class="secret-content">
-                <div class="secret-icon">💫</div>
-                <h3>Lo lograste, Celes 💖</h3>
-                <p class="secret-text">
-                  Las tres cartas abiertas.<br>
-                  Tres pedacitos de corazón repartidos por la pantalla.<br><br>
-                  No hace falta que te diga lo mucho que significas.<br>
-                  Lo sabes. Lo siento. Lo escribo aquí para que no se olvide.<br><br>
-                  Gracias por ser mi persona favorita.<br>
-                  Por los días malos que se vuelven buenos solo con verte.<br>
-                  Por la forma en que haces que todo tenga sentido.<br><br>
-                  Te quiero de forma ridícula, infinita y sin condiciones.
-                </p>
-                <div class="secret-signature">— carlitos</div>
-              </div>
-            </div>
+          // Crear botón con flecha en la esquina
+          const arrowBtn = document.createElement('button');
+          arrowBtn.id = 'secret-arrow-btn';
+          arrowBtn.innerHTML = '→';
+          arrowBtn.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #ff4081, #c2185b);
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(255, 64, 129, 0.4);
+            z-index: 15000;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: pulseBtn 2s ease-in-out infinite;
           `;
-          document.body.appendChild(secretModal);
-      
-          // Animación de entrada
-          requestAnimationFrame(() => {
-            secretModal.classList.add('open');
+          
+          // Add pulse animation
+          const style = document.createElement('style');
+          style.textContent = `
+            @keyframes pulseBtn {
+              0%, 100% { transform: scale(1); box-shadow: 0 8px 30px rgba(255, 64, 129, 0.4); }
+              50% { transform: scale(1.1); box-shadow: 0 12px 40px rgba(255, 64, 129, 0.6); }
+            }
+          `;
+          document.head.appendChild(style);
+          
+          document.body.appendChild(arrowBtn);
+          
+          // Hover effect
+          arrowBtn.addEventListener('mouseenter', () => {
+            arrowBtn.style.transform = 'scale(1.15)';
+            arrowBtn.style.boxShadow = '0 12px 40px rgba(255, 64, 129, 0.6)';
           });
-      
-          // Sonido especial
+          arrowBtn.addEventListener('mouseleave', () => {
+            arrowBtn.style.transform = 'scale(1)';
+            arrowBtn.style.boxShadow = '0 8px 30px rgba(255, 64, 129, 0.4)';
+          });
+          
+          // Click handler - show heart animation
+          arrowBtn.addEventListener('click', () => {
+            playChime();
+            setTimeout(() => playHeart(), 100);
+            
+            // Remove arrow button
+            arrowBtn.remove();
+            
+            // Show heart animation canvas
+            showHeartAnimation();
+          });
+          
+          // Play sound
+          playChime();
+        }
+        
+        function showHeartAnimation() {
+          // Create overlay with heart canvas
+          const overlay = document.createElement('div');
+          overlay.className = 'heart-animation-overlay';
+          overlay.style.cssText = `
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 20000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+          `;
+          
+          overlay.innerHTML = `
+            <canvas id="heart-final-canvas" style="max-width: 90vw; max-height: 90vh;"></canvas>
+            <div class="heart-final-text" style="
+              position: fixed;
+              bottom: 100px;
+              left: 50%;
+              transform: translateX(-50%);
+              color: #ff4081;
+              font-size: clamp(24px, 5vw, 40px);
+              font-family: 'Poppins', sans-serif;
+              font-weight: 900;
+              text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+              z-index: 20001;
+              opacity: 0;
+              transition: opacity 0.5s ease 0.5s;
+            ">Te adoro, Celes 🩵</div>
+            <button class="close-heart-btn" style="
+              position: fixed;
+              bottom: 30px;
+              left: 50%;
+              transform: translateX(-50%);
+              padding: 12px 30px;
+              background: linear-gradient(135deg, #ff4081, #c2185b);
+              color: white;
+              border: none;
+              border-radius: 50px;
+              font-family: 'Poppins', sans-serif;
+              font-weight: 900;
+              font-size: 16px;
+              cursor: pointer;
+              z-index: 20001;
+              opacity: 0;
+              transition: opacity 0.5s ease 1s;
+            ">Cerrar</button>
+          `;
+          
+          document.body.appendChild(overlay);
+          
+          // Animate in
+          requestAnimationFrame(() => {
+            overlay.style.opacity = '1';
+            setTimeout(() => {
+              const text = overlay.querySelector('.heart-final-text');
+              const btn = overlay.querySelector('.close-heart-btn');
+              if (text) text.style.opacity = '1';
+              if (btn) btn.style.opacity = '1';
+            }, 500);
+          });
+          
+          // Start heart animation on the new canvas
+          initHeartAnimation('heart-final-canvas');
+          
+          // Play sound
           playChime();
           setTimeout(() => playHeart(), 200);
-      
-          // Cerrar al click en X o fuera
-          const closeSecret = () => {
+          
+          // Close handler
+          const closeHeartAnim = () => {
             playClose();
-            secretModal.classList.remove('open');
-            setTimeout(() => secretModal.remove(), 400);
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.remove(), 500);
           };
-      
-          secretModal.querySelector('.close-btn').addEventListener('click', closeSecret);
-          secretModal.addEventListener('click', (e) => {
-            if (e.target === secretModal) closeSecret();
+          
+          overlay.querySelector('.close-heart-btn').addEventListener('click', closeHeartAnim);
+          overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeHeartAnim();
           });
         }
     
