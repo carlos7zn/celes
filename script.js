@@ -908,49 +908,52 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window.runTypewriter = function(letterNum) {
-    const container = document.getElementById('letterText' + letterNum);
-    if (!container) return;
+      const container = document.getElementById('letterText' + letterNum);
+      if (!container) return;
     
-    // Evitar volver a animar si ya está animado
-    if (container.dataset.typewriterDone === 'true') return;
-    container.dataset.typewriterDone = 'true';
+      // Evitar volver a animar si ya está animado
+      if (container.dataset.typewriterDone === 'true') return;
+      container.dataset.typewriterDone = 'true';
     
-    container.innerHTML = '';
-    const paragraphs = letterTexts[letterNum] || [];
+      container.innerHTML = '';
+      const paragraphs = letterTexts[letterNum] || [];
     
-    let paragraphIndex = 0;
+      let paragraphIndex = 0;
     
-    function typeNextParagraph() {
-      if (paragraphIndex >= paragraphs.length) return;
+      function typeNextParagraph() {
+        if (paragraphIndex >= paragraphs.length) return;
       
-      const p = document.createElement('p');
-      container.appendChild(p);
-      const text = paragraphs[paragraphIndex];
-      let charIndex = 0;
+        const p = document.createElement('p');
+        // Preservar espacios y saltos de línea
+        p.style.whiteSpace = 'pre-wrap';
+        p.style.wordWrap = 'break-word';
+        container.appendChild(p);
+        const text = paragraphs[paragraphIndex];
+        let charIndex = 0;
       
-      function typeChar() {
-        if (charIndex < text.length) {
-          const char = text.charAt(charIndex);
-          if (char === '\n') {
-            p.appendChild(document.createElement('br'));
+        function typeChar() {
+          if (charIndex < text.length) {
+            const char = text.charAt(charIndex);
+            if (char === '\n') {
+              p.appendChild(document.createElement('br'));
+            } else {
+              const span = document.createElement('span');
+              span.className = 'typewriter-char';
+              span.textContent = char;
+              span.style.animationDelay = `${charIndex * 0.01}s`;
+              p.appendChild(span);
+            }
+            charIndex++;
+            setTimeout(typeChar, 8);
           } else {
-            const span = document.createElement('span');
-            span.className = 'typewriter-char';
-            span.textContent = char;
-            span.style.animationDelay = `${charIndex * 0.02}s`;
-            p.appendChild(span);
+            paragraphIndex++;
+            setTimeout(typeNextParagraph, 100);
           }
-          charIndex++;
-          setTimeout(typeChar, 18);
-        } else {
-          paragraphIndex++;
-          setTimeout(typeNextParagraph, 200);
         }
+        typeChar();
       }
-      typeChar();
-    }
-    typeNextParagraph();
-  };
+      typeNextParagraph();
+    };
 
   // === 8. PARALLAX EN MÓVILES (GIROSCOPIO) ===
   if (window.DeviceOrientationEvent) {
