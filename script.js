@@ -541,18 +541,20 @@ document.addEventListener('DOMContentLoaded', () => {
         noBtn.addEventListener('touchstart', handleNoInteraction, { passive: false });
 
     // Evento al pulsar SÍ
-      yesBtn.addEventListener('click', () => {
-        playClick();
-        playChime();
-        playHeart();
-        const cx = innerWidth/2, cy = innerHeight/2;
-        for(let i=0;i<85;i++) setTimeout(()=>spawnHeart(cx+(Math.random()-0.5)*300, cy+(Math.random()-0.5)*200), i*16);
-        noBtn.style.display = 'none'; yesBtn.style.display = 'none'; questionBox.style.display = 'none';
-        setTimeout(()=>{ resultBox.style.display = 'block'; }, 300);
-      });
-  
-      // Hover en botón Sí
-      yesBtn.addEventListener('mouseenter', () => playHover());
+          function handleYes() {
+            playClick();
+            playChime();
+            playHeart();
+            const cx = innerWidth/2, cy = innerHeight/2;
+            for(let i=0;i<85;i++) setTimeout(()=>spawnHeart(cx+(Math.random()-0.5)*300, cy+(Math.random()-0.5)*200), i*16);
+            noBtn.style.display = 'none'; yesBtn.style.display = 'none'; questionBox.style.display = 'none';
+            setTimeout(()=>{ resultBox.style.display = 'block'; }, 300);
+          }
+          yesBtn.addEventListener('click', handleYes);
+          yesBtn.addEventListener('touchstart', handleYes, { passive: true });
+
+          // Hover en botón Sí
+          yesBtn.addEventListener('mouseenter', () => playHover());
   
       // Hover en cartas
       document.querySelectorAll('.letter-card').forEach(card => {
@@ -571,23 +573,27 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Cerrar modales al hacer click en la X
-    document.querySelectorAll('.close-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        playClose();
-        btn.closest('.letter-modal').classList.remove('open');
-      });
-    });
-
-    // Cerrar modal al hacer click fuera del papel
-        document.querySelectorAll('.letter-modal').forEach(modal => {
-          modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-              playClose();
-              modal.classList.remove('open');
-            }
-          });
+    // Cerrar modales al hacer click/touch en la X
+        document.querySelectorAll('.close-btn').forEach(btn => {
+          function handleClose() {
+            playClose();
+            btn.closest('.letter-modal, .secret-modal, .heart-animation-overlay').classList.remove('open');
+          }
+          btn.addEventListener('click', handleClose);
+          btn.addEventListener('touchstart', handleClose, { passive: true });
         });
+
+    // Cerrar modal al hacer click/touch fuera del papel
+            document.querySelectorAll('.letter-modal, .secret-modal, .heart-animation-overlay').forEach(modal => {
+              function handleBackdropClose(e) {
+                if (e.target === modal) {
+                  playClose();
+                  modal.classList.remove('open');
+                }
+              }
+              modal.addEventListener('click', handleBackdropClose);
+              modal.addEventListener('touchstart', handleBackdropClose, { passive: true });
+            });
 
         // === DESBLOQUEO PROGRESIVO: 4º MENSAJE AL ABRIR LAS 3 CARTAS ===
         const openedLetters = new Set();
@@ -648,17 +654,23 @@ document.addEventListener('DOMContentLoaded', () => {
             arrowBtn.style.boxShadow = '0 8px 30px rgba(255, 64, 129, 0.4)';
           });
           
-          // Click handler - show heart animation
-          arrowBtn.addEventListener('click', () => {
-            playChime();
-            setTimeout(() => playHeart(), 100);
+          // Click/touch handler - show heart animation
+                    arrowBtn.addEventListener('click', () => {
+                      playChime();
+                      setTimeout(() => playHeart(), 100);
             
-            // Remove arrow button
-            arrowBtn.remove();
+                      // Remove arrow button
+                      arrowBtn.remove();
             
-            // Show heart animation canvas
-            showHeartAnimation();
-          });
+                      // Show heart animation canvas
+                      showHeartAnimation();
+                    });
+                    arrowBtn.addEventListener('touchstart', () => {
+                      playChime();
+                      setTimeout(() => playHeart(), 100);
+                      arrowBtn.remove();
+                      showHeartAnimation();
+                    }, { passive: true });
           
           // Play sound
           playChime();
@@ -737,16 +749,18 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => playHeart(), 200);
           
           // Close handler
-          const closeHeartAnim = () => {
-            playClose();
-            overlay.style.opacity = '0';
-            setTimeout(() => overlay.remove(), 500);
-          };
-          
-          overlay.querySelector('.close-heart-btn').addEventListener('click', closeHeartAnim);
-          overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) closeHeartAnim();
-          });
+                    const closeHeartAnim = () => {
+                      playClose();
+                      overlay.style.opacity = '0';
+                      setTimeout(() => overlay.remove(), 500);
+                    };
+
+                    function handleHeartClose() { closeHeartAnim(); }
+                    overlay.querySelector('.close-heart-btn').addEventListener('click', handleHeartClose);
+                    overlay.querySelector('.close-heart-btn').addEventListener('touchstart', handleHeartClose, { passive: true });
+                    function handleHeartBackdrop(e) { if (e.target === overlay) closeHeartAnim(); }
+                    overlay.addEventListener('click', handleHeartBackdrop);
+                    overlay.addEventListener('touchstart', handleHeartBackdrop, { passive: true });
         }
     
         // Modificar apertura de cartas para trackear
@@ -755,24 +769,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     
         // Reemplazar los listeners de click de las cartas para trackear
-        document.querySelectorAll('.letter-card').forEach(card => {
-          // Remover listener anterior (clonando el nodo)
-          const newCard = card.cloneNode(true);
-          card.parentNode.replaceChild(newCard, card);
-      
-          newCard.addEventListener('click', () => {
-            playPop();
-            const letterNum = newCard.getAttribute('data-letter');
-            const modal = document.getElementById('modal' + letterNum);
-            if (modal) {
-              modal.classList.add('open'); if (window.runTypewriter) window.runTypewriter(letterNum);
-              openedLetters.add(letterNum);
-              checkAllLettersOpened();
-            }
-          });
-          // Hover
-          newCard.addEventListener('mouseenter', () => playHover());
-        });
+                document.querySelectorAll('.letter-card').forEach(card => {
+                  // Remover listener anterior (clonando el nodo)
+                  const newCard = card.cloneNode(true);
+                  card.parentNode.replaceChild(newCard, card);
+
+                  function handleLetterOpen() {
+                    playPop();
+                    const letterNum = newCard.getAttribute('data-letter');
+                    const modal = document.getElementById('modal' + letterNum);
+                    if (modal) {
+                      modal.classList.add('open'); if (window.runTypewriter) window.runTypewriter(letterNum);
+                      openedLetters.add(letterNum);
+                      checkAllLettersOpened();
+                    }
+                  }
+                  newCard.addEventListener('click', handleLetterOpen);
+                  newCard.addEventListener('touchstart', handleLetterOpen, { passive: true });
+                  // Hover
+                  newCard.addEventListener('mouseenter', () => playHover());
+                });
 
         // === TECLAS RÁPIDAS ===
         let currentOpenModal = null;
@@ -875,14 +891,16 @@ document.addEventListener('DOMContentLoaded', () => {
               requestAnimationFrame(() => easterModal.classList.add('open'));
           
               const closeEaster = () => {
-                playClose();
-                easterModal.classList.remove('open');
-                setTimeout(() => easterModal.remove(), 400);
-              };
-              easterModal.querySelector('.close-btn').addEventListener('click', closeEaster);
-              easterModal.addEventListener('click', (e) => {
-                if (e.target === easterModal) closeEaster();
-              });
+                              playClose();
+                              easterModal.classList.remove('open');
+                              setTimeout(() => easterModal.remove(), 400);
+                            };
+                            function handleEasterClose() { closeEaster(); }
+                            easterModal.querySelector('.close-btn').addEventListener('click', handleEasterClose);
+                            easterModal.querySelector('.close-btn').addEventListener('touchstart', handleEasterClose, { passive: true });
+                            function handleEasterBackdrop(e) { if (e.target === easterModal) closeEaster(); }
+                            easterModal.addEventListener('click', handleEasterBackdrop);
+                            easterModal.addEventListener('touchstart', handleEasterBackdrop, { passive: true });
           
               ribbonClicks = 0;
             }
@@ -947,13 +965,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      playClick();
-      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      localStorage.setItem('theme', currentTheme);
-    });
-  }
+      function handleThemeToggle() {
+        playClick();
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        localStorage.setItem('theme', currentTheme);
+      }
+      themeToggle.addEventListener('click', handleThemeToggle);
+      themeToggle.addEventListener('touchstart', handleThemeToggle, { passive: true });
+    }
 
   // === 4. CANVAS POLVO DE ESTRELLAS (STARDUST) EN FONDO ===
   const stardustCanvas = document.getElementById('stardust');
