@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Para Celeste 🩵</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 </div>
 
 <!-- === THEME TOGGLE === -->
-<button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar modo día/noche">
+<button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar modo día/noche" style="touch-action: manipulation;">
   <span class="toggle-icon-sun">☀️</span>
   <span class="toggle-icon-moon">🌙</span>
 </button>
@@ -34,9 +34,9 @@
     <h1 class="title" id="mainTitle">Sabes que eres la mejor ¿no? 🩵</h1>
     <p class="subtitle">Espero que te guste 🩵</p>
     <div class="btn-row">
-      <button class="btn btn-yes" id="yesBtn">¡Obvio! 🩵</button>
-      <button class="btn btn-no" id="noBtn">Nop 🫣</button>
-    </div>
+          <button class="btn btn-yes" id="yesBtn" style="touch-action: manipulation;">¡Obvio! 🩵</button>
+          <button class="btn btn-no" id="noBtn" style="touch-action: manipulation;">Nop 🫣</button>
+        </div>
   </div>
 
   <div class="content-box result-box" id="resultBox" style="display: none;">
@@ -52,33 +52,33 @@
       <p class="letters-intro">MIRAAAAAA</p>
       
       <div class="letters-grid">
-        <!-- Carta 1 -->
-        <div class="letter-card" data-letter="1">
-          <div class="letter-cover">
-            <span class="letter-emoji">✉️</span>
-            <span class="letter-title">I</span>
-            <span class="letter-seal">🩵</span>
-          </div>
-        </div>
+              <!-- Carta 1 -->
+              <div class="letter-card" data-letter="1" style="touch-action: manipulation;">
+                <div class="letter-cover">
+                  <span class="letter-emoji">✉️</span>
+                  <span class="letter-title">I</span>
+                  <span class="letter-seal">🩵</span>
+                </div>
+              </div>
 
-        <!-- Carta 2 -->
-        <div class="letter-card" data-letter="2">
-          <div class="letter-cover">
-            <span class="letter-emoji">✉️</span>
-            <span class="letter-title">LOVE</span>
-            <span class="letter-seal">💖</span>
-          </div>
-        </div>
+              <!-- Carta 2 -->
+              <div class="letter-card" data-letter="2" style="touch-action: manipulation;">
+                <div class="letter-cover">
+                  <span class="letter-emoji">✉️</span>
+                  <span class="letter-title">LOVE</span>
+                  <span class="letter-seal">💖</span>
+                </div>
+              </div>
 
-        <!-- Carta 3 -->
-        <div class="letter-card" data-letter="3">
-          <div class="letter-cover">
-            <span class="letter-emoji">✉️</span>
-            <span class="letter-title">YOU</span>
-            <span class="letter-seal">⭐</span>
-          </div>
-        </div>
-      </div>
+              <!-- Carta 3 -->
+              <div class="letter-card" data-letter="3" style="touch-action: manipulation;">
+                <div class="letter-cover">
+                  <span class="letter-emoji">✉️</span>
+                  <span class="letter-title">YOU</span>
+                  <span class="letter-seal">⭐</span>
+                </div>
+              </div>
+            </div>
     </div>
   </div>
 </main>

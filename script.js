@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // === AUDIO CONTEXT UNLOCK (iOS Safari requiere gesto de usuario) ===
+  let audioUnlocked = false;
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    initAudio();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    audioUnlocked = true;
+    // Remover listeners tras desbloquear
+    document.removeEventListener('pointerdown', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+  }
+  document.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
+  document.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+  document.addEventListener('keydown', unlockAudio, { once: true, passive: true });
+
   // === CANVAS CORAZÓN LATIENTE (estilo referencia celes.vercel.app) ===
   const heartCanvas = document.getElementById('heart-canvas');
   if (heartCanvas) {
@@ -507,10 +525,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Escuchadores de eventos para esquivar
-    noBtn.addEventListener('pointerover', (e) => { playHover(); moveNo(e); });
-    noBtn.addEventListener('pointerdown', e => { e.preventDefault(); playClick(); moveNo(e); });
-    noBtn.addEventListener('click', e => { e.preventDefault(); playClick(); moveNo(e); });
+    // Touch/click unificado para móvil y desktop
+        function handleNoInteraction(e) {
+          e.preventDefault();
+          playClick();
+          moveNo(e);
+        }
+
+        // Mouse: hover + click para esquivar
+        noBtn.addEventListener('pointerover', (e) => { playHover(); moveNo(e); });
+        noBtn.addEventListener('pointerdown', handleNoInteraction);
+        noBtn.addEventListener('click', handleNoInteraction);
+    
+        // Touch: tap también dispara movimiento (para iOS/Android)
+        noBtn.addEventListener('touchstart', handleNoInteraction, { passive: false });
 
     // Evento al pulsar SÍ
       yesBtn.addEventListener('click', () => {
