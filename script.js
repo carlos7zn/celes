@@ -435,6 +435,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animateLightParticles();
 
+  // === SPAWN HEART (para click ripple y burst) ===
+  function spawnHeart(x, y) {
+    const heart = document.createElement('div');
+    heart.className = 'trail-sparkle';
+    heart.textContent = '🩵';
+    heart.style.left = `${x}px`;
+    heart.style.top = `${y}px`;
+    heart.style.fontSize = '20px';
+    const dx = (Math.random() - 0.5) * 80;
+    const dy = -Math.random() * 100 - 40;
+    heart.style.setProperty('--dx', `${dx}px`);
+    heart.style.setProperty('--dy', `${dy}px`);
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 1000);
+  }
+
   const noBtn = document.getElementById('noBtn');
   const yesBtn = document.getElementById('yesBtn');
   const questionBox = document.getElementById('questionBox');
@@ -525,20 +541,30 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Touch/click unificado para móvil y desktop
-        function handleNoInteraction(e) {
+    // Mouse: hover esquiva el botón (solo en dispositivos con hover)
+        if (window.matchMedia('(hover: hover)').matches) {
+          noBtn.addEventListener('pointerover', (e) => {
+            playHover();
+            moveNo(e);
+          });
+        }
+
+        // Click/pointer/touch esquiva
+        noBtn.addEventListener('pointerdown', (e) => {
           e.preventDefault();
           playClick();
           moveNo(e);
-        }
-
-        // Mouse: hover + click para esquivar
-        noBtn.addEventListener('pointerover', (e) => { playHover(); moveNo(e); });
-        noBtn.addEventListener('pointerdown', handleNoInteraction);
-        noBtn.addEventListener('click', handleNoInteraction);
-    
-        // Touch: tap también dispara movimiento (para iOS/Android)
-        noBtn.addEventListener('touchstart', handleNoInteraction, { passive: false });
+        });
+        noBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          playClick();
+          moveNo(e);
+        });
+        noBtn.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          playClick();
+          moveNo(e);
+        }, { passive: false });
 
     // Evento al pulsar SÍ
           function handleYes() {
