@@ -1,116 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Para Celeste 🩵</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#211b16">
+  <title>Para Celeste</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- === LOADING SCREEN === -->
-<div id="loading-screen" class="loading-screen">
-  <div class="loading-heart">💖</div>
-  <p class="loading-text">Cargando amor...</p>
-  <div class="loading-bar"><div class="loading-fill"></div></div>
-</div>
-
-<!-- === THEME TOGGLE === -->
-<button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar modo día/noche" style="touch-action: manipulation;">
-  <span class="toggle-icon-sun">☀️</span>
-  <span class="toggle-icon-moon">🌙</span>
-</button>
-
-<canvas id="hearts"></canvas>
-<canvas id="stardust"></canvas>
-
-<main class="wrapper">
-  <div class="content-box" id="questionBox">
-    <div class="ribbon">🎀</div>
-    <span class="badge">Para la mejor chica del mundo 🩵</span>
-    <h1 class="title" id="mainTitle">Sabes que eres la mejor ¿no? 🩵</h1>
-    <p class="subtitle">Espero que te guste 🩵</p>
-    <div class="btn-row">
-          <button class="btn btn-yes" id="yesBtn" style="touch-action: manipulation;">¡Obvio! 🩵</button>
-          <button class="btn btn-no" id="noBtn" style="touch-action: manipulation;">Nop 🫣</button>
+  <main>
+    <section class="opening" id="opening" aria-labelledby="main-title">
+      <div class="paper opening-note">
+        <p class="note-mark" aria-hidden="true">•</p>
+        <p class="note-to">Para Celeste</p>
+        <h1 id="main-title">La mejor<br>chica</h1>
+        <p class="note-copy">Tenía una cosa pequeña que decirte, pero quería que la abrieras tú.</p>
+        <div class="note-footer">
+          <span>De Carlitos</span>
+          <div class="choice" aria-label="Elige una respuesta">
+            <button class="answer answer-yes" id="yesBtn" type="button">Abrir la nota</button>
+            <button class="answer answer-no" id="noBtn" type="button">¿Seguro?</button>
+          </div>
         </div>
-  </div>
+      </div>
+      <p class="opening-whisper" id="noMessage" aria-live="polite">Un regalo para leer despacio.</p>
+    </section>
 
-  <div class="content-box result-box" id="resultBox" style="display: none;">
-    <div class="polaroid">
-      <img src="cat.gif" alt="Gato con corazones" class="cat-gif">
-      <div class="polaroid-caption">TE AMOOOOO 🩵💖✨</div>
-    </div>
-    <h2 class="result-title">Te adoro, Celes 🩵</h2>
-    <p class="result-text">Gracias por estar siempre Celes 🩵</p>
+    <section class="letter" id="letter" hidden aria-labelledby="letter-title">
+      <div class="letter-intro">
+        <p class="chapter">Una nota para guardar</p>
+        <h2 id="letter-title">Te adoro,<br>Celeste.</h2>
+        <p>Gracias por estar siempre. Esto es solo un recordatorio: eres muy, muy querida.</p>
+      </div>
 
-    <!-- Sección de cartas interactivas -->
-    <div class="letters-section">
-      <p class="letters-intro">MIRAAAAAA</p>
-      
-      <div class="letters-grid">
-              <!-- Carta 1 -->
-              <div class="letter-card" data-letter="1" style="touch-action: manipulation;">
-                <div class="letter-cover">
-                  <span class="letter-emoji">✉️</span>
-                  <span class="letter-title">I</span>
-                  <span class="letter-seal">🩵</span>
-                </div>
-              </div>
+      <figure class="polaroid">
+        <img src="cat.gif" alt="Gato dibujado con corazones">
+        <figcaption>Para sacarte una sonrisa</figcaption>
+      </figure>
 
-              <!-- Carta 2 -->
-              <div class="letter-card" data-letter="2" style="touch-action: manipulation;">
-                <div class="letter-cover">
-                  <span class="letter-emoji">✉️</span>
-                  <span class="letter-title">LOVE</span>
-                  <span class="letter-seal">💖</span>
-                </div>
-              </div>
+      <div class="letters" aria-label="Tres cartas para Celeste">
+        <p class="chapter letters-heading">Ábrelas en orden, o como te apetezca</p>
+        <div class="ticket-row">
+          <button class="ticket ticket-one" type="button" data-letter="1"><span>Una idea</span><strong>I</strong><small>para ti</small></button>
+          <button class="ticket ticket-two" type="button" data-letter="2"><span>Una certeza</span><strong>LOVE</strong><small>sin prisa</small></button>
+          <button class="ticket ticket-three" type="button" data-letter="3"><span>Un deseo</span><strong>YOU</strong><small>siempre</small></button>
+        </div>
+      </div>
 
-              <!-- Carta 3 -->
-              <div class="letter-card" data-letter="3" style="touch-action: manipulation;">
-                <div class="letter-cover">
-                  <span class="letter-emoji">✉️</span>
-                  <span class="letter-title">YOU</span>
-                  <span class="letter-seal">⭐</span>
-                </div>
-              </div>
-            </div>
-    </div>
-  </div>
-</main>
+      <section class="closing" aria-label="Cierre de la carta">
+        <p>No hace falta responder. Solo quería que lo supieras.</p>
+        <a href="#opening" class="back-link">Volver al principio</a>
+      </section>
+    </section>
+  </main>
 
-<!-- Modales para las cartas -->
-<div class="letter-modal" id="modal1">
-  <div class="letter-paper">
-    <span class="close-btn">&times;</span>
-    <h3>I 🩵</h3>
-    <div class="letter-text" id="letterText1"></div>
-    <p class="letter-signature">— carlitos</p>
-  </div>
-</div>
+  <dialog class="letter-dialog" id="letterDialog" aria-labelledby="dialog-title">
+    <article class="dialog-paper">
+      <button class="dialog-close" id="closeDialog" type="button" aria-label="Cerrar carta">×</button>
+      <p class="chapter" id="dialog-kicker"></p>
+      <h2 id="dialog-title"></h2>
+      <div class="dialog-copy" id="dialog-copy"></div>
+      <p class="signature">— carlitos</p>
+    </article>
+  </dialog>
 
-<div class="letter-modal" id="modal2">
-  <div class="letter-paper">
-    <span class="close-btn">&times;</span>
-    <h3>LOVE 🌧️</h3>
-    <div class="letter-text" id="letterText2"></div>
-    <p class="letter-signature">— carlitos</p>
-  </div>
-</div>
-
-<div class="letter-modal" id="modal3">
-  <div class="letter-paper">
-    <span class="close-btn">&times;</span>
-    <h3>YOU ✨</h3>
-    <div class="letter-text" id="letterText3"></div>
-    <p class="letter-signature">— carlitos</p>
-  </div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
